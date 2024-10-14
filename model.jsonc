@@ -1,0 +1,96 @@
+{
+   "pipeline_id": "P1",
+   "pipeline_name": "Test pipeline",
+   "pipeline_description": "This is a test pipeline",
+   "pipeline_version": 1,
+   "pipeline_status": "DRFT",
+   "view_disp_id": "V1",
+   "view_version": 1,
+   "data_filter": {
+       "date_range": "2007-03-01T13:00:00Z/2008-05-11T15:30:00Z",
+       "unapproved_data": 1, 
+       "site": ""
+   },
+   "datasplit":{
+       "splittype": "kfold",
+       "splitdefinition":{
+           "n_splits": 10
+       }
+   },
+   "variable_mapping": [
+           {
+               "variable_id": 1,
+               "variable_name": "SepalLengthCm",
+               "variable_category": "numerical"
+           },{
+               "variable_id": 2,
+               "variable_name": "SepalWidthCm",
+               "variable_category": "numerical"
+           }, {
+               "variable_id": 3,
+               "variable_name": "PetalLengthCm",
+               "variable_category": "numerical"
+
+           },
+           {
+               "variable_id": 4,
+               "variable_name": "PetalWidthCm",
+               "variable_category": "numerical"
+           },
+           {
+               "variable_id":5,
+               "variable_name": "Species",
+               "variable_category": "categorical"
+           }
+       ],
+   "transformation_mapping":{
+       "1":{
+           "variable_list": [5],
+           "transformation": "t_labelencoder",
+           "parameters": {}
+       }
+   },
+   "feature_union_mapping":{
+        "1":{
+            "variable_list":[
+                1,
+                2,
+                3,
+                4
+            ],
+            "transformation":"t_standardscaler",
+            "parameters":{   
+            }
+        }
+    },
+   "save_transformation": true,
+   "estimator": {
+        "e_randomforestclassifier_0":{
+            "estimator_number": 0,
+            "estimator_type": "classification",
+            "model_name": "e_randomforestclassifier",
+            "hyperparamters": {
+                "n_estimators": [100, 200, 250, 300, 400],
+                "max_depth": [10, 50, 100] 
+            }
+        },
+        "e_logistic_1":{
+            "estimator_number": 1,
+            "estimator_type": "classification",
+            "model_name": "e_logistic",
+            "hyperparamters": {
+                "C": [0.1, 1 , 10],
+                "penalty": ["l2", "elasticnet"] 
+            }
+        }
+    },
+    "X": [1, 2, 3, 4],
+    "Y": [5],
+   "save_model": true,
+   "metrics": {
+     "metric_accuracy": "m_accuracyscore",
+     "metric_recall": "m_recall_score",
+     "metric_precision": "m_precision_score",
+     "metric_f1_score": "m_f1_score"
+ } 
+}
